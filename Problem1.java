@@ -4,14 +4,14 @@ import java.util.Scanner;
 
 /**
   * Knapsack Problems consist of a knapsack capacity,
-  * and a list of Items that can possibly be included in the knapsack,
+  * and a list of Items that can possibly be included in the knapsack, 
   * each with a weight and value.
   * @author Sophie Quigley
   * @author PUT YOUR NAMES HERE
-  *
+  * 
   */
 
-public class Problem2 {
+public class Problem1 {
     /**
      * Capacity of knapsack in Problem
      */
@@ -24,9 +24,9 @@ public class Problem2 {
      * Items to try to fit into knapsack
      */
     Item[] items;
-
+    
     /**
-     *
+     * 
      * Creates a new knapsack Problem whose parameters will be read from the Scanner.
      * <br>Input format consists of non-negative integers separated by white space as follows:
      * <ul>
@@ -38,15 +38,15 @@ public class Problem2 {
      * Incorrect knapsack information will simply be skipped.
      * @param in Scanner used to read knapsack problem description
      */
-
-    Problem2(Scanner in) {
+    
+    Problem1(Scanner in) {
         // Read knapsack capacity
         capacity = in.nextInt();
         while (capacity<0)  {
             System.out.println("Error: knapsack capacity must be on-negative");
-            capacity = in.nextInt();
+            capacity = in.nextInt(); 
         }
-
+            
         // Get total number of items
         totalItems = in.nextInt();
         while (totalItems < 0) {
@@ -55,9 +55,9 @@ public class Problem2 {
             return;
         }
         items = new Item[totalItems];
-
+     
         // Read weights and values
-        for (int i=0; i<totalItems; i++)
+        for (int i=0; i<totalItems; i++) 
             items[i] = new Item(in);
     }
 
@@ -65,39 +65,39 @@ public class Problem2 {
      * Creates a randomly generated knapsack Problem according to specifications.
      * or a trivial Problem (zero capacity or no totalItems) if the specifications are faulty.
      * @param capacity Capacity of knapsack
-     * @param totalItems Total number of Items to try to fit in knapsack
+     * @param totalItems Total number of Items to try to fit in knapsack 
      */
-     Problem2( int capacity, int totalItems) {
+     Problem1( int capacity, int totalItems) {
         if (capacity < 0) {
             System.out.println("Error: knapsack capacity must be non-negative");
-            this.capacity = 0;
+            this.capacity = 0;       
         }
         else
             this.capacity = capacity;
-
+     
         if (totalItems<0) {
             System.out.println("Error: number of items must be non-negative");
-            this.totalItems = 0;
+            this.totalItems = 0;       
         }
         else
             this.totalItems = totalItems;
         if (this.totalItems == 0)  return;
 
-        // Create arrays based on number of totalItems
-        this.items = new Item[this.totalItems];
-
+        // Create arrays based on number of totalItems    
+        this.items = new Item[this.totalItems]; 
+        
         // Create weights randomly
         Random rand = new Random();
         int randmax = capacity;
         for (int i=0; i<this.totalItems; i++) {
-            this.items[i] = new Item(rand,randmax);
+            this.items[i] = new Item(rand,randmax); 
         }
     }
-
+     
     /**
      * Returns a string describing the Problem
      * @return Description of Problem
-     */
+     */    
     @Override
     public String toString() {
         String result = "Problem: try to fit " + totalItems + " items:\n";
@@ -106,51 +106,40 @@ public class Problem2 {
         result += "into knapsack of capacity " + capacity;
         return result;
     }
-
+    
     /**
      * Returns the Solution to the knapsack Problem
      * @return Solution for knapsack Problem
      */
-    public Solution2 solve() {
-        return bestFit(capacity, totalItems-1);
+    public Solution1 solve() {
+        return bestFit(capacity, totalItems-1);     
     }
-
+    
     /**
      * Finds best combination of items 0 to n that fits in capacity
-     * @param capacity Remaining capacity of knapsack
+     * @param capacity Remaining capacity of knapsack 
      * @param n Index of new Item to be fitted into knapsack (or not)
      * @return Solution which maximises the value of the knapsack
      */
-    private Solution2 bestFit(int capacity, int n) {
-        //Dynamic programming approach
-
-        //Make the i*w matrix for the solutions
-        //C[i][w] is the solution of the most valuable knapsack with i items, w capacity
-        //V[i][w] is the total value of the most valuable knapsack with i items, w capacity
-        Solution2[][] solutions = new Solution2[n][capacity];
-        int[][] values = new int[n+1][capacity+1];
-
-
-        //Generate the knapsacks "bottom up" using capacity
-        int weighti;
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < capacity; j++){
-                if(i == 0 || j == 0) values[i][j] = 0;
-                else if (j - (weighti = items[i].getWeight()) > 0){
-                    Solution2 withI = (new Solution2(solutions[i-1][j-weighti])).add(i, items[i]);
-                    int valueWithI = withI.getWorth();
-                    if(valueWithI > values[i-1][j]){
-                        solutions[i][j] = withI;
-                        values[i][j] = valueWithI;
-                    }else{
-                        solutions[i][j] = solutions[i-1][j-1];
-                        values[i][j] = values[i-1][j];
-                    }
-
-                }
-            }
+    private Solution1 bestFit(int capacity, int n) {
+        if (n == 0) {
+            Solution1 result = new Solution1(this.capacity,totalItems);
+            if (items[0].getWeight() <= capacity)
+                result.add(0,items[0]);
+            return result;
         }
-        return solutions[n][capacity];
-
+        
+        int weightn = items[n].getWeight();
+        if (weightn > capacity)
+            return bestFit(capacity, n-1);
+        
+        Solution1 included = bestFit(capacity-weightn, n-1).add(n, items[n]);
+        Solution1 excluded = bestFit(capacity,n-1);
+        
+        if (excluded.getWorth() >= included.getWorth())
+            return excluded;
+        else
+            return included;
     }
+       
 }

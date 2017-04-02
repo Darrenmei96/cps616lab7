@@ -40,7 +40,7 @@ public class Solution1 {
      * @param totalcapacity Capacity of knapsack when empty
      * @param totalitems Number of possible items which may be added to knapsack
      */
-    Solution ( int totalcapacity, int totalitems  ) {
+    Solution1 ( int totalcapacity, int totalitems  ) {
         totalCapacity = totalcapacity;
         remainingCapacity = totalcapacity;
         this.maxItems = totalitems;
@@ -68,7 +68,7 @@ public class Solution1 {
      * @param item Item added
      * @return The updated knapsack
      */
-    public Solution add(int i, Item item) {
+    public Solution1 add(int i, Item item) {
         items[i] = item;
         remainingCapacity -= item.getWeight();
         totalValue += item.getValue();
@@ -81,7 +81,7 @@ public class Solution1 {
      * @param i index of new Item to be removed
      * @return The updated knapsack
      */
-    public Solution remove(int i) {
+    public Solution1 remove(int i) {
         Item item = items[i];
         remainingCapacity += item.getWeight();
         totalValue -= item.getValue();
