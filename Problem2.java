@@ -1,4 +1,4 @@
-package knapsack;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,7 +7,7 @@ import java.util.Scanner;
   * and a list of Items that can possibly be included in the knapsack,
   * each with a weight and value.
   * @author Sophie Quigley
-  * @author PUT YOUR NAMES HERE
+  * @author Darren Mei
   *
   */
 
@@ -124,33 +124,20 @@ public class Problem2 {
     private Solution2 bestFit(int capacity, int n) {
         //Dynamic programming approach
 
-        //Make the i*w matrix for the solutions
-        //C[i][w] is the solution of the most valuable knapsack with i items, w capacity
-        //V[i][w] is the total value of the most valuable knapsack with i items, w capacity
-        Solution2[][] solutions = new Solution2[n][capacity];
-        int[][] values = new int[n+1][capacity+1];
-
-
-        //Generate the knapsacks "bottom up" using capacity
-        int weighti;
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < capacity; j++){
-                if(i == 0 || j == 0) values[i][j] = 0;
-                else if (j - (weighti = items[i].getWeight()) > 0){
-                    Solution2 withI = (new Solution2(solutions[i-1][j-weighti])).add(i, items[i]);
-                    int valueWithI = withI.getWorth();
-                    if(valueWithI > values[i-1][j]){
-                        solutions[i][j] = withI;
-                        values[i][j] = valueWithI;
-                    }else{
-                        solutions[i][j] = solutions[i-1][j-1];
-                        values[i][j] = values[i-1][j];
-                    }
-
-                }
-            }
+        //Make the (i+1)*(j+1) matrices
+        int[][] V = new int[n+1][capacity+1];
+        Solution2[][] C = new Solution2[n+1][capacity+1]
+        
+        for(int i = 0; i <= n; i++){
+        	for (int j = 0; j <= capacity; j++){
+        		if (i == 0 || j == 0)
+        			V[i][j] = 0;
+        		else if
+        		
+        		else if
+        	}
         }
-        return solutions[n][capacity];
+        
 
     }
 }

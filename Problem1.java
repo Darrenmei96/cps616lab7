@@ -1,4 +1,4 @@
-package knapsack;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,7 +7,7 @@ import java.util.Scanner;
   * and a list of Items that can possibly be included in the knapsack, 
   * each with a weight and value.
   * @author Sophie Quigley
-  * @author PUT YOUR NAMES HERE
+  * @author Darren Mei
   * 
   */
 

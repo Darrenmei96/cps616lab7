@@ -1,4 +1,4 @@
-package knapsack;
+
 
 /**
  * An Solution is a solution to a knapsack Problem.

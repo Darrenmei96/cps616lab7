@@ -1,11 +1,11 @@
-package knapsack;
+
 
 /**
  * An Solution is a solution to a knapsack Problem.
  * It is a knapsack which includes items selected to maximize the value.
  * Note that there may be more than one possible solution to each knapsack problem.
  * @author Sophie Quigley
- * @author PUT YOUR NAMES HERE
+ * @author Darren Mei
  */
 public class Solution {
     /**
