@@ -126,18 +126,29 @@ public class Problem2 {
 
         //Make the (i+1)*(j+1) matrices
         int[][] V = new int[n+1][capacity+1];
-        Solution2[][] C = new Solution2[n+1][capacity+1]
-        
+        Solution2[][] C = new Solution2[n+1][capacity+1];
+        Item item;
+
         for(int i = 0; i <= n; i++){
-        	for (int j = 0; j <= capacity; j++){
-        		if (i == 0 || j == 0)
-        			V[i][j] = 0;
-        		else if
-        		
-        		else if
+            for (int j = 0; j <= capacity; j++){
+                if (i == 0 || j == 0){
+                    V[i][j] = 0;
+                    C[i][j] = new Solution2(capacity,n);
+                }else if((item = items[i-1]).getWeight() <= j){
+                    if (item.getValue() + V[i-1][j-item.getWeight()] > V[i-1][j]){
+                        Solution2 sack = (new Solution2(C[i-1][j-item.getWeight()])).add(i-1,item);
+                        V[i][j] = sack.getWorth();
+                        C[i][j] = sack;
+                    }else{
+                        V[i][j] = V[i-1][j];
+                        C[i][j] = new Solution2(C[i-1][j]);
+                    }
+                }else{
+                    V[i][j] = V[i-1][j];
+                    C[i][j] = new Solution2(C[i-1][j]);
+                }
         	}
         }
-        
-
+        return C[n][capacity];
     }
 }
