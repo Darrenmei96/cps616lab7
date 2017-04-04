@@ -15,18 +15,16 @@ public class Test {
      */
     public static void main(String[] args) {
         Problem problem;
-        Problem1 problem1;
-        Problem2 problem2;
 
-        for (int i=10; i<=200; i+=10) {
+        for (int i=10; i<=150; i+=10) {
             problem = new Problem(i,i);
-            problem1 = new Problem1(i,i);
-            problem2 = new Problem2(i,i);
-            System.out.print("DP: ");
-            process2(problem2);
-            System.out.print("Naive Opt:");
-            process1(problem1);
-            System.out.print("Naive:");
+            System.out.println(problem);
+            System.out.println();
+            System.out.print("Dynamic Programming: ");
+            processDP(problem);
+            System.out.print("Optimized: ");
+            processOPT(problem);
+            System.out.print("Naive: ");
             process(problem);
         }
 
@@ -34,7 +32,7 @@ public class Test {
         while (in.hasNext())    {
             // Read and print input Knapsack
             problem = new Problem(in);
-            process(problem);
+            //process(problem);
         }
     }
 
@@ -49,38 +47,25 @@ public class Test {
         long time = System.nanoTime();
         solution = problem.solve();
         time = System.nanoTime() - time;
-        //System.out.println(solution);
+        System.out.println(solution);
         System.out.println("was calculated in " + time + "nanoseconds.\n");
     }
-
-    /**
-     * Processes a knapsack Problem1: prints it, solves it, and prints the solution
-     * <br>DO NOT MODIFY
-     * @param problem Knapsack Problem1
-     */
-    private static void process1(Problem1 problem) {
-        Solution1 solution;
+    private static void processOPT(Problem problem) {
+        Solution solution;
         //System.out.println(problem);
         long time = System.nanoTime();
-        solution = problem.solve();
+        solution = problem.solve1();
         time = System.nanoTime() - time;
-        //System.out.println(solution);
+        System.out.println(solution);
         System.out.println("was calculated in " + time + "nanoseconds.\n");
     }
-
-    /**
-     * Processes a knapsack Problem2: prints it, solves it, and prints the solution
-     * <br>DO NOT MODIFY
-     * @param problem Knapsack Problem2
-     */
-    private static void process2(Problem2 problem) {
-        Solution2 solution;
+    private static void processDP(Problem problem) {
+        Solution solution;
         //System.out.println(problem);
         long time = System.nanoTime();
-        solution = problem.solve();
+        solution = problem.solve2();
         time = System.nanoTime() - time;
-        //System.out.println(solution);
+        System.out.println(solution);
         System.out.println("was calculated in " + time + "nanoseconds.\n");
     }
-
 }

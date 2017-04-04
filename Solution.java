@@ -7,7 +7,7 @@
  * @author Sophie Quigley
  * @author Darren Mei
  */
-public class Solution {
+public class Solution implements Cloneable{
     /**
      * Total capacity of knapsack when empty
      */
@@ -32,7 +32,9 @@ public class Solution {
      * </ul>
      */
     Item[] items;
-    
+
+    int totalValue;
+
     /**
      * Returns a new Solution representing an empty knapsack
      * @param totalcapacity Capacity of knapsack when empty
@@ -42,9 +44,24 @@ public class Solution {
         totalCapacity = totalcapacity;
         remainingCapacity = totalcapacity;
         this.maxItems = totalitems;
-        items = new Item[totalitems]; 
+        items = new Item[totalitems];
+        totalValue = 0;
     }
-    
+
+    Solution (Solution from){
+        this.totalCapacity = from.totalCapacity;
+        this.remainingCapacity = from.remainingCapacity;
+        this.maxItems = from.maxItems;
+        this.items = new Item[maxItems];
+        for(int i = -1; ++i < maxItems; this.items[i]=from.items[i]);
+        this.totalValue = from.totalValue;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return new Solution(this);
+    }
+
     /**
      * Returns a string describing the Solution to the knapsack Problem
      * @return String description of knapsack Solution
@@ -58,7 +75,7 @@ public class Solution {
         result += "with a total value of " + getWorth();
         return result;
     }
-     
+
     /**
      * Adds the ith Item to the knapsack, and adjusts remaining capacity accordingly
      * @param i index of new Item to be added
@@ -71,7 +88,22 @@ public class Solution {
         totalItems++;
         return this;
     }
-    
+
+    /**
+     * Adds the ith Item to the knapsack, and adjusts remaining capacity accordingly
+     * @param i index of new Item to be added
+     * @param item Item added
+     * @return The updated knapsack
+     */
+    public Solution add1(int i, Item item) {
+        items[i] = item;
+        remainingCapacity -= item.getWeight();
+        totalValue += item.getValue();
+        totalItems++;
+        return this;
+    }
+
+
     /**
      * Removes the ith Item from the knapsack, and adjusts remaining capacity accordingly
      * @param i index of new Item to be removed
@@ -85,6 +117,20 @@ public class Solution {
     }
 
     /**
+     * Removes the ith Item from the knapsack, and adjusts remaining capacity accordingly
+     * @param i index of new Item to be removed
+     * @return The updated knapsack
+     */
+    public Solution remove1(int i) {
+        Item item = items[i];
+        remainingCapacity += item.getWeight();
+        totalValue -= item.getValue();
+        items[i] = null;
+        totalItems--;
+        return this;
+    }
+
+    /**
      * Getter for an Item in the knapsack
      * @param i index of Item to be returned.
      * @return ith Item in knapsack
@@ -92,7 +138,7 @@ public class Solution {
     public Item getItem(int i) {
         return items[i];
     }
-    
+
     /**
      * Getter for the total value of the current knapsack contents
      * @return the total value of the current contents of the knapsack
@@ -103,5 +149,13 @@ public class Solution {
             if (items[i] != null)
                 result += items[i].getValue();
         return result;
+    }
+
+    /**
+     * Getter for the total value of the current knapsack contents
+     * @return the total value of the current contents of the knapsack
+     */
+    public int getWorth1() {
+        return totalValue;
     }
 }
